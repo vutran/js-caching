@@ -45,10 +45,12 @@
  * ##Reset the cache
  * cache.reset();
  *
- * @version 1.0
- * @author The Uprising Creative <info@theuprisingcreative.com>
- * @link http://theuprisingcreative.com/
  * @copyright Copyright (c) 2012, The Uprising Creative
+ * @version 1.0
+ * @link https://github.com/vutran/JS-Caching
+ * @author The Uprising Creative <info@theuprisingcreative.com>
+ * @website http://theuprisingcreative.com/
+ * @contributor Vu Tran <vu@vu-tran.com>
  */
 var cache = {
 	cacheTimeout : 900, 				//number of seconds for the sessionStorage to live

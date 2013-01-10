@@ -46,7 +46,7 @@
  * cache.reset();
  *
  * @copyright Copyright (c) 2012, The Uprising Creative
- * @version 1.0
+ * @version 1.0.1
  * @link https://github.com/vutran/JS-Caching
  * @author The Uprising Creative <info@theuprisingcreative.com>
  * @website http://theuprisingcreative.com/
@@ -129,6 +129,8 @@ var cache = {
 	 * If the value is not a string, tries to convert the JSON string
 	 * before storing the value
 	 *
+	 * If the localStorage or sessionStorage quota is exceeded when trying to store a new value, the cache gets reset
+	 *
 	 * @param string key
 	 * @param string value
 	 * @return void
@@ -141,10 +143,30 @@ var cache = {
 		var json = JSON.stringify(data);
 		switch(this.storageType) {
 			case 'localStorage':
-				localStorage.setItem(key,json);
+				try {
+					localStorage.setItem(key, json);
+				}
+				catch (e) {
+					switch(e.code) {
+						case 22: // quota exceeded
+							cache.reset();
+							localStorage.setItem(key, json);
+							break;
+					}
+				}
 				break;
 			case 'sessionStorage':
-				sessionStorage.setItem(key,json);
+				try {
+					sessionStorage.setItem(key, json);
+				}
+				catch (e) {
+					switch(e.code) {
+						case 22: // quota exceeded
+							cache.reset();
+							sessionStorage.setItem(key, json);
+							break;
+					}
+				}
 				break;
 			case 'js':
 			default:

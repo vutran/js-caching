@@ -1,0 +1,36 @@
+<html>
+<head>
+<title>Example Usage</title>
+<script type="text/javascript" language="javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script type="text/javascript" language="javascript" src="../cache.js"></script>
+<script type="text/javascript" language="javascript">
+
+$(function() {
+
+  var data = cache.get('stored_key');
+
+  // Stored data doesn't exist...
+  if(data === false) {
+    // Retrieve the data
+    $.getJSON('http://graph.facebook.com/i.am.vutran', function(data) {
+      // Store it
+      cache.set('stored_key', data);
+      console.log('storing into cache');
+      console.log(data);
+    });
+  }
+  // Stored data exists...
+  else {
+    console.log('retrieving from cache');
+    console.log(data);
+  }
+
+});
+
+</script>
+</head>
+
+<body>
+
+</body>
+</html>

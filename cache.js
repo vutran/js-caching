@@ -24,57 +24,43 @@
  *
  * #Usage
  *
- * ##Initialize the plugin
- * <code>
- * cache.init();
- * </code>
- *
  * ##Set a value
  * <code>
- * cache.set('some_key','some_value_to_store');
+ * cache.set('some_key', 'some_value_to_store');
  * </code>
  *
  * ##Retrieve a stored value
  * <code>
  * var value = cache.get('some_key');
  *
- * console.log(value); //returns "some_value_to_store"
+ * console.log(value); // returns "some_value_to_store"
  * </code>
- *
  *
  * ##Reset the cache
  * cache.reset();
  *
- * @copyright Copyright (c) 2012, The Uprising Creative
- * @version 1.0.1
+ * @copyright Copyright (c) 2013 Vu Tran
+ * @version 1.1.0
  * @link https://github.com/vutran/JS-Caching
- * @author The Uprising Creative <info@theuprisingcreative.com>
- * @website http://theuprisingcreative.com/
- * @contributor Vu Tran <vu@vu-tran.com>
+ * @author Vu Tran <vu@vu-tran.com>
+ * @website http://vu-tran.com/
  */
-var cache = {
-	cacheTimeout : 900, 				//number of seconds for the sessionStorage to live
-	storageType : 'localStorage', 		//enumeration: js, sessionStorage, localStorage
-	storage : false,					//storage array (for js storageType)
-	init : function() {
-		/*
-		Initializes the caching mechanisms
-		 */
-		this.storageType = 'localStorage';
-		switch(this.storageType) {
-			case 'localStorage':
-				//if localStorage isn't supported
-				if(!window.localStorage) { this.storageType = 'js'; }
-				break;
-			case 'sessionStorage':
-				//if sessionStorage isn't supported
-				if(!window.sessionStorage) { this.storageType = 'js'; }
-				break;
-		}
-		this.initStorage();
-	},
+var cache = (function(x) {
+
+  var _QUOTA_EXCEEDED = 22;
+
+	var _cacheTimeout = 900; 			       	// number of seconds for the sessionStorage to live
+	var _storageType = 'localStorage'; 		// enumeration: js, sessionStorage, localStorage
+	var _storage = false;				        	// storage array (for js storageType)
+
+  var _expirationTime,
+      _expirationTimeString,
+      _currentTime;
+
+  // !----- Private Methods
+
 	/**
-	 * This is called by initStorage() for "localStorage" and "sessionStorage" storage type
+	 * This is called by _initStorage() for "localStorage" and "sessionStorage" storage type
 	 *
 	 * Sets the current time, and retrieves the stored expiration time.
 	 * If the expiration time is not yet set, then it will be set into the localStorage/sessionStorage.
@@ -85,44 +71,69 @@ var cache = {
 	 *
 	 * @return void
 	 */
-	checkExpiration : function() {
-		//Sets the current time
+	var _checkExpiration = function() {
+		// Sets the current time
 		var d = new Date();
-		this.currentTime = d.getTime();
-		//Retrieves the stored expiration time
-		this.expirationTime = this.get('_cacheTimeout');
-		this.expirationTimeString = d;
-		//If it is not yet set, set it!
-		if(!this.expirationTime) {
-			this.expirationTime = this.currentTime + this.cacheTimeout;
-			this.expirationTimeString = new Date(this.expirationTime);
-			this.set('_cacheTimeout',this.expirationTime);
-			this.set('_cacheTimeoutString',this.expirationTimeString);
+		_currentTime = d.getTime();
+		// Retrieves the stored expiration time
+		_expirationTime = x.get('_cacheTimeout');
+		_expirationTimeString = d;
+		// If it is not yet set, set it!
+		if(!_expirationTime) {
+			_expirationTime = _currentTime + _cacheTimeout;
+			_expirationTimeString = new Date(_expirationTime);
+			x.set('_cacheTimeout', _expirationTime);
+			x.set('_cacheTimeoutString', _expirationTimeString);
 		}
+		// Checks if the current time is greater than the expiration time
+		var timeElapsed = ((_currentTime - _expirationTime) / 1000);
+		// Clears it if the condition is met!
+		if(timeElapsed > _cacheTimeout) { x.reset(); }
+	};
 
-		//Checks if the current time is greater than the expiration time
-		var timeElapsed = ((this.currentTime-this.expirationTime)/1000);
-		//Clears it if the condition is met!
-		if(timeElapsed>this.cacheTimeout) { this.reset(); }
-	},
+  /**
+   * Initializes the caching mechanism
+   *
+   * @access public
+   * @return void
+   */
+	var _init = function() {
+		_storageType = 'localStorage';
+		switch(_storageType) {
+			case 'localStorage':
+				// If localStorage isn't supported
+				if(!window.localStorage) { _storageType = 'js'; }
+				break;
+			case 'sessionStorage':
+				// If sessionStorage isn't supported
+				if(!window.sessionStorage) { _storageType = 'js'; }
+				break;
+		}
+		_initStorage();
+	};
+
 	/**
 	 * Initializes the caching system based on the storage type
 	 *
+	 * @access public
 	 * @return void
 	 */
-	initStorage : function() {
-		switch(this.storageType) {
+	var _initStorage = function() {
+		switch(_storageType) {
 			case 'localStorage':
 			case 'sessionStorage':
-				//Sets the current time and check the expiration time
-				this.checkExpiration();
+				// Sets the current time and check the expiration time
+				_checkExpiration();
 				break;
 			case 'js':
 			default:
-				this.storage = new Array();
+				_storage = new Array();
 				break;
 		}
-	},
+	};
+
+  // !----- Public Methods
+
 	/**
 	 * Sets a value for the stored cache key
 	 *
@@ -131,24 +142,25 @@ var cache = {
 	 *
 	 * If the localStorage or sessionStorage quota is exceeded when trying to store a new value, the cache gets reset
 	 *
+	 * @access public
 	 * @param string key
 	 * @param string value
 	 * @return void
 	 */
-	set : function(key,value) {
+	x.set = function(key, value) {
 		var data = {
 			type : typeof value,
 			value : value
 		}
 		var json = JSON.stringify(data);
-		switch(this.storageType) {
+		switch(_storageType) {
 			case 'localStorage':
 				try {
 					localStorage.setItem(key, json);
 				}
 				catch (e) {
 					switch(e.code) {
-						case 22: // quota exceeded
+						case _QUOTA_EXCEEDED:
 							cache.reset();
 							localStorage.setItem(key, json);
 							break;
@@ -161,7 +173,7 @@ var cache = {
 				}
 				catch (e) {
 					switch(e.code) {
-						case 22: // quota exceeded
+						case _QUOTA_EXCEEDED:
 							cache.reset();
 							sessionStorage.setItem(key, json);
 							break;
@@ -170,22 +182,24 @@ var cache = {
 				break;
 			case 'js':
 			default:
-				this.storage[key] = json;
+				_storage[key] = json;
 				break;
 		}
-	},
+	};
+
 	/**
 	 * Returns the value of the stored key in the cache
 	 *
-	 * If the value is not set, then false (boolean) will be returned
+	 * If the value is not set, than false (boolean) will be returned
 	 *
+	 * @access public
 	 * @param string key
-	 * @return string|bool value The value if it exists
+	 * @return mixed             The value if it exists
 	 */
-	get : function(key) {
+	x.get = function(key) {
 		var data = false;
 		var value = false;
-		switch(this.storageType) {
+		switch(_storageType) {
 			case 'localStorage':
 				data = localStorage.getItem(key);
 				break;
@@ -194,21 +208,24 @@ var cache = {
 				break;
 			case 'js':
 			default:
-				data = this.storage[key];
+				data = _storage[key];
 				break;
 		}
 		if(data) {
 			var json = JSON.parse(data);
 			return json.value;
 		}
-	},
+		return false;
+	};
+
 	/**
 	 * Resets the storage
 	 *
-	 * @return bool true
+	 * @access public
+	 * @return bool
 	 */
-	reset : function() {
-		switch(this.storageType) {
+	x.reset = function() {
+		switch(_storageType) {
 			case 'localStorage':
 				localStorage.clear();
 				break;
@@ -217,9 +234,17 @@ var cache = {
 				break;
 			case 'js':
 			default:
-				this.storage = new Array();
+				_storage = new Array();
 				break;
 		}
 		return true;
-	}
-};
+	};
+
+  // Initialize the object
+  _init();
+
+  // Return The Object
+
+  return x;
+
+}(cache || {}));

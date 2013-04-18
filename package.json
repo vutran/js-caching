@@ -1,0 +1,12 @@
+{
+  "name" : "cache",
+  "description" : "JS Caching library",
+  "homepage" : "https://github.com/vutran/JS-Caching/",
+  "keywords" : ["cache", "storage"],
+  "author" : "Vu Tran <vu@vu-tran.com>",
+  "contributors" : [],
+  "dependencies" : [],
+  "repository" : {"type": "git", "url": "git://github.com/vutran/JS-Caching.git"},
+  "main" : "cache.js",
+  "version" : "1.1.0"
+}

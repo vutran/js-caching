@@ -1,7 +1,7 @@
 {
   "name": "js-caching",
-  "description": "JS Caching library",
-  "homepage": "https://github.com/vutran/JS-Caching/",
+  "description": "JavaScript Caching library",
+  "homepage": "https://github.com/vutran/js-caching/",
   "keywords": [
     "cache",
     "storage"
@@ -11,7 +11,7 @@
   "dependencies": {},
   "repository": {
     "type": "git",
-    "url": "git://github.com/vutran/JS-Caching.git"
+    "url": "git://github.com/vutran/js-caching.git"
   },
   "main": "cache.js",
   "version": "1.1.0",

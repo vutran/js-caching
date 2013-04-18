@@ -1,5 +1,5 @@
 /**
- * JS Caching
+ * JavaScript Caching
  *
  * Provides an API for client-side caching via a JS variable on a page instance
  * or through the HTML5 localStorage/sessionStorage API
@@ -41,7 +41,7 @@
  *
  * @copyright Copyright (c) 2013 Vu Tran
  * @version 1.1.0
- * @link https://github.com/vutran/JS-Caching
+ * @link https://github.com/vutran/js-caching
  * @author Vu Tran <vu@vu-tran.com>
  * @website http://vu-tran.com/
  */

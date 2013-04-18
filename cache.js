@@ -1,49 +1,49 @@
 /**
- * JavaScript Caching
+ JavaScript Caching
  *
- * Provides an API for client-side caching via a JS variable on a page instance
- * or through the HTML5 localStorage/sessionStorage API
+ Provides an API for client-side caching via a JS variable on a page instance
+ or through the HTML5 localStorage/sessionStorage API
  *
- * #Storage Types
+ #Storage Types
  *
- * ##JavaScript
+ ##JavaScript
  *
- * This type of storage only lasts for a single page load instance.
+ This type of storage only lasts for a single page load instance.
  *
- * ##Session Storage
+ ##Session Storage
  *
- * Useful for persistent page load instances. If the user refreshes
- * the browser or browse to another site and comes back, the stored
- * data is still there unless the cache timeout is met.
+ Useful for persistent page load instances. If the user refreshes
+ the browser or browse to another site and comes back, the stored
+ data is still there unless the cache timeout is met.
  *
- * ##Local Storage
+ ##Local Storage
  *
- * Same as sessionStorage but uses localStorage system to allow for
- * caching even when the browser is closed and reopened (where available)
+ Same as sessionStorage but uses localStorage system to allow for
+ caching even when the browser is closed and reopened (where available)
  *
  *
- * #Usage
+ #Usage
  *
- * ##Set a value
- * <code>
- * cache.set('some_key', 'some_value_to_store');
- * </code>
+ ##Set a value
+ <code>
+ cache.set('some_key', 'some_value_to_store');
+ </code>
  *
- * ##Retrieve a stored value
- * <code>
- * var value = cache.get('some_key');
+ ##Retrieve a stored value
+ <code>
+ var value = cache.get('some_key');
  *
- * console.log(value); // returns "some_value_to_store"
- * </code>
+ console.log(value); // returns "some_value_to_store"
+ </code>
  *
- * ##Reset the cache
- * cache.reset();
+ ##Reset the cache
+ cache.reset();
  *
- * @copyright Copyright (c) 2013 Vu Tran
- * @version 1.1.0
- * @link https://github.com/vutran/js-caching
- * @author Vu Tran <vu@vu-tran.com>
- * @website http://vu-tran.com/
+ @copyright Copyright (c) 2013 Vu Tran
+ @version 1.1.0
+ @link https://github.com/vutran/js-caching
+ @author Vu Tran <vu@vu-tran.com>
+ @website http://vu-tran.com/
  */
 var cache = (function(x) {
 
@@ -62,16 +62,16 @@ var cache = (function(x) {
   // !----- Private Methods
 
   /**
-   * This is called by _initStorage() for "localStorage" and "sessionStorage" storage type
+   This is called by _initStorage() for "localStorage" and "sessionStorage" storage type
    *
-   * Sets the current time, and retrieves the stored expiration time.
-   * If the expiration time is not yet set, then it will be set into the localStorage/sessionStorage.
+   Sets the current time, and retrieves the stored expiration time.
+   If the expiration time is not yet set, then it will be set into the localStorage/sessionStorage.
    *
-   * Will also check the current time against the expiration time to see
-   * if the cache timeout is met. If it is met, then the localStorage/sessionStorage
-   * will be cleared.
+   Will also check the current time against the expiration time to see
+   if the cache timeout is met. If it is met, then the localStorage/sessionStorage
+   will be cleared.
    *
-   * @return void
+   @return void
    */
   var _checkExpiration = function() {
     // Sets the current time
@@ -94,10 +94,10 @@ var cache = (function(x) {
   };
 
   /**
-   * Initializes the caching mechanism
+   Initializes the caching mechanism
    *
-   * @access public
-   * @return void
+   @access public
+   @return void
    */
   var _init = function() {
     _storageType = 'localStorage';
@@ -115,10 +115,10 @@ var cache = (function(x) {
   };
 
   /**
-   * Initializes the caching system based on the storage type
+   Initializes the caching system based on the storage type
    *
-   * @access public
-   * @return void
+   @access public
+   @return void
    */
   var _initStorage = function() {
     switch(_storageType) {
@@ -139,17 +139,17 @@ var cache = (function(x) {
   // !----- Public Methods
 
   /**
-   * Sets a value for the stored cache key
+   Sets a value for the stored cache key
    *
-   * If the value is not a string, tries to convert the JSON string
-   * before storing the value
+   If the value is not a string, tries to convert the JSON string
+   before storing the value
    *
-   * If the localStorage or sessionStorage quota is exceeded when trying to store a new value, the cache gets reset
+   If the localStorage or sessionStorage quota is exceeded when trying to store a new value, the cache gets reset
    *
-   * @access public
-   * @param string key
-   * @param string value
-   * @return void
+   @access public
+   @param string key
+   @param string value
+   @return void
    */
   x.set = function(key, value) {
     var data = {
@@ -194,13 +194,13 @@ var cache = (function(x) {
   };
 
   /**
-   * Returns the value of the stored key in the cache
+   Returns the value of the stored key in the cache
    *
-   * If the value is not set, than false (boolean) will be returned
+   If the value is not set, than false (boolean) will be returned
    *
-   * @access public
-   * @param string key
-   * @return mixed             The value if it exists
+   @access public
+   @param string key
+   @return mixed             The value if it exists
    */
   x.get = function(key) {
     var data = false;
@@ -227,10 +227,10 @@ var cache = (function(x) {
   };
 
   /**
-   * Resets the storage
+   Resets the storage
    *
-   * @access public
-   * @return bool
+   @access public
+   @return bool
    */
   x.reset = function() {
     switch(_storageType) {

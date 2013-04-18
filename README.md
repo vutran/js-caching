@@ -1,11 +1,9 @@
-JS Caching
-======================
+#JavaScript Caching
 
 Provides an API for client-side caching via a JS variable on a page instance
 or through the HTML5 localStorage/sessionStorage API
 
-Storage Types
---------------------
+#Storage Types
 
 ##JavaScript
 
@@ -22,18 +20,15 @@ data is still there unless the cache timeout is met.
 Same as sessionStorage but uses localStorage system to allow for
 caching even when the browser is closed and reopened (where available)
 
-Usage
---------------------
 
-##Initialize the plugin
-    cache.init();
+#Usage
 
 ##Set a value
-    cache.set('some_key','some_value_to_store');
+    cache.set('some_key', 'some_value_to_store');
 
 ##Retrieve a stored value
-    var value = cache.get('some_key');
-    console.log(value); //returns "some_value_to_store"
+    va value = cache.get('some_key');
+    console.log(value); // returns "some_value_to_store"
 
 ##Reset the cache
     cache.reset();

@@ -253,8 +253,13 @@ var cache = (function(x) {
   // Initialize the object
   _init();
 
-  // Return The Object
+  // Export Module
+  if(typeof module !== "undefined" && module.exports) { module.exports = x; }
 
+  // Export AMD
+  if(typeof define === "function" && define.amd) { define(x); }
+
+  // Return The Object
   return x;
 
 }(cache || {}));

@@ -7,21 +7,12 @@
     "storage"
   ],
   "author": "Vu Tran <vu@vu-tran.com>",
-  "contributors": [],
-  "dependencies": {},
   "repository": {
     "type": "git",
     "url": "git://github.com/vutran/js-caching.git"
   },
   "main": "cache.js",
-  "version": "1.1.1",
+  "version": "1.0.0",
   "readmeFilename": "README.md",
-  "gitHead": "9f69c97da5ba3d27a29c734d76bcd6c3b69271e8",
-  "directories": {
-    "example": "examples"
-  },
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
   "license": "BSD"
 }

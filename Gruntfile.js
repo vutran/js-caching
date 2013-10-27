@@ -6,7 +6,7 @@ module.exports = function(grunt) {
     pkg : grunt.file.readJSON('package.json'),
 
     /**
-     * Uglifies the /src/js/ folder and outputs the files to /assets/ directory
+     * Uglifies the /src/ folder and outputs the files to /build/ directory
      *
      * @task uglify
      */

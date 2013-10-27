@@ -1,50 +1,13 @@
 /**
- JavaScript Caching
+ * js-caching
  *
- Provides an API for client-side caching via a JS variable on a page instance
- or through the HTML5 localStorage/sessionStorage API
- *
- #Storage Types
- *
- ##JavaScript
- *
- This type of storage only lasts for a single page load instance.
- *
- ##Session Storage
- *
- Useful for persistent page load instances. If the user refreshes
- the browser or browse to another site and comes back, the stored
- data is still there unless the cache timeout is met.
- *
- ##Local Storage
- *
- Same as sessionStorage but uses localStorage system to allow for
- caching even when the browser is closed and reopened (where available)
- *
- *
- #Usage
- *
- ##Set a value
- <code>
- cache.set('some_key', 'some_value_to_store');
- </code>
- *
- ##Retrieve a stored value
- <code>
- var value = cache.get('some_key');
- *
- console.log(value); // returns "some_value_to_store"
- </code>
- *
- ##Reset the cache
- cache.reset();
- *
- @copyright Copyright (c) 2013 Vu Tran
- @version 1.1.0
- @link https://github.com/vutran/js-caching
- @author Vu Tran <vu@vu-tran.com>
- @website http://vu-tran.com/
+ * @copyright Copyright (c) 2013 Vu Tran
+ * @version 1.0.1
+ * @link https://github.com/vutran/js-caching
+ * @author Vu Tran <vu@vu-tran.com>
+ * @website http://vu-tran.com/
  */
+
 var cache = (function(x) {
 
   "use strict";

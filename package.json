@@ -11,8 +11,12 @@
     "type": "git",
     "url": "git://github.com/vutran/js-caching.git"
   },
-  "main": "cache.js",
-  "version": "1.0.0",
+  "main" : "build/cache.min.js",
+  "version": "1.0.1",
   "readmeFilename": "README.md",
-  "license": "BSD"
+  "license": "BSD",
+  "devDependencies": {
+    "grunt": "~0.4.1",
+    "grunt-contrib-uglify": "~0.2.4"
+  }
 }
